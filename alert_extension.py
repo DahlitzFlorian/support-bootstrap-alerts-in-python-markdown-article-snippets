@@ -23,14 +23,14 @@ HEADINGS = {
 
 class AlertExtension(Extension):
     def __init__(self, **kwargs):
-        self.config = {
-            'lang_prefix': ['language-', 'Prefix prepended to the language. Default: "language-"'],
-        }
+        self.config = {}
         super().__init__(**kwargs)
 
     def extendMarkdown(self, md):
         md.registerExtension(self)
-        md.preprocessors.register(AlertBlockProcessor(md, self.getConfigs()), 'alert_block', 25)
+        md.preprocessors.register(
+            AlertBlockProcessor(md, self.getConfigs()
+        ), 'alert_block', 25)
 
 
 class AlertBlockProcessor(Preprocessor):
@@ -47,8 +47,6 @@ class AlertBlockProcessor(Preprocessor):
         self.config = config
 
     def run(self, lines):
-        """ Match and store Fenced Code Blocks in the HtmlStash. """
-
         text = "\n".join(lines)
         while 1:
             m = self.ALERT_BLOCK_RE.search(text)
